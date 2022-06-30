@@ -61,8 +61,16 @@ Prelaz u sledeću fazu kontroliše organizator (u realnom vremenu) [Ispis pitanj
 
 Na kraju kviza moguće je pregledati izveštaje ko je dao najviše tačnih, netačnih odgovora, ko je bio najbrži...
 
-### Ostalo
-Svaki korisnik igra za sebe, moguće je postojanje tima na način da članovi tima koriste svi zajedno jedan uređaj za davanje odgovora (jedan nalog)
+
+
+### Timovi
+#### Pravljenje timova
+Registrovani korisnik može da napravi tim, i pozove ljude u njega preko usernamea
+Vlasnik tima je onaj koji je napravio tim, ima pregled članova tima, može da izbaci članove tima
+
+#### Timski kviz
+U podešavanju kviza se podešava da se igra u timovima od 2,3 ili 4\
+Igrači unutar istog tima odgovaraju na način da onaj ko prvi unese odgovor taj odgovor se uzima kao konačan
 
 ### Turniri
 Moderatori mogu organizovati turnire koji se sastoje od nekoliko uvezanih kvizova, pobednici su automatski whitelistovani za naredni turnir
