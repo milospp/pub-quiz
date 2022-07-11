@@ -75,6 +75,27 @@ Igrači unutar istog tima odgovaraju na način da onaj ko prvi unese odgovor taj
 ### Turniri
 Moderatori mogu organizovati turnire koji se sastoje od nekoliko uvezanih kvizova, pobednici su automatski whitelistovani za naredni turnir
 
+### Izveštaji
+Tokom igre čuvaju se informacije o svim odgovorima svakog igrača i rezultatima. Na osnovu tih informacija generišu se sledeći izveštaji
+#### Za jedan kviz
+- Izveštaj po bodovima
+- Najbrži igrači (Prvi dali odgovor)
+- Najbrži pouzdani igrači (Prvi dali tačan odgovor)
+- Odnos tačnih i netačnih odgovora (preciznost)
+
+#### Turnir
+- Isti izveštaji kao i za pojedinačan kviz samo zbirno gledano
+- Izveštaj sa prosečnim bodovima u svim kvizovima
+
+#### Globalno
+- Isti izveštaji kao za turnir, samo se gledaju svi kvizovi
+
+## Proširenja za diplomski
+- Dokerizacija i Deploy aplikacije
+- Skaliranje aplikacije
+- Uvođenje timova (Više igrača može daje odgovore za isti tim - realtime)
+
+
 ## Arhitektura
 Korisnički servis - Go
 Servis za kreiranje kvizova - Go
