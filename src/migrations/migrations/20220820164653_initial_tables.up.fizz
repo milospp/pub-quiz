@@ -1,0 +1,63 @@
+create_table("users") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("username", "string")
+    t.Column("password", "string")
+    t.Column("email", "string")
+    t.Column("firstname", "string")
+    t.Column("lastname", "string")
+    t.Column("team", "string")
+}
+
+create_table("anonymous_user") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("name", "string")
+    t.Column("key", "string")
+}
+
+create_table("quizzes") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("quiz_name", "string")
+    t.Column("start_schedule", "datetime", {"null": true})
+    t.Column("start_timestamp", "datetime", {"null": true})
+    t.Column("end_timestamp", "datetime", {"null": true})
+    t.Column("room_code", "string")
+    t.Column("room_password", "string", {"null": true})
+}
+
+create_table("quiz_questions") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("quiz_id", "integer")
+    t.Column("QuestionText", "string")
+    t.Column("AnswerType", "string", {"length": 10})
+    t.Column("AnswerText", "datetime")
+    t.Column("AnswerNumber", "string")
+}
+
+create_table("answer_option") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("value", "string")
+    t.Column("correct", "bool")
+    t.Column("quiz_question_id", "integer")
+}
+
+create_table("players") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("role", "integer")
+    t.Column("quiz_id", "integer")
+    t.Column("user_id", "integer")
+    t.Column("anonymous_user_id", "integer")
+}
+
+create_table("player_answer") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("answer", "string")
+    
+    t.Column("player_id", "integer")
+    t.Column("timestamp", "datetime")
+    t.Column("timestamp_client", "datetime")
+}
+
+create_table("section") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("name", "string")
+}

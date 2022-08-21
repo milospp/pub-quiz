@@ -1,0 +1,13 @@
+.quiz-lobby {
+    .player-info-box {
+        display: inline-block;
+        padding: 1em;
+        background: #222222a3;
+        border-radius: 0.5em;
+        border: 1px solid #222222;
+    }
+
+    .players-info {
+        gap: 1em;
+    }
+}

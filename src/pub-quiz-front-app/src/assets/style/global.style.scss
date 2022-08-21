@@ -1,0 +1,39 @@
+body {
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(147,67,67,1) 0%, rgba(111,27,27,1) 90% );
+  color: #fff;
+}
+
+a {
+    color: rgb(148, 194, 255)
+}
+
+a:hover {
+    color: rgb(121, 179, 255)
+}
+
+ul, a, li {
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Nunito,sans-serif;
+}
+blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
+    margin: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+}
+
+*, :before, :after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: currentColor;
+}
+

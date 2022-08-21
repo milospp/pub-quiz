@@ -1,0 +1,41 @@
+.input-component {
+    height: 50px;
+    position: relative;
+    width: 100%;
+    margin-top: 1em;
+}
+
+.input {
+    background-color: #262323;
+    border-radius: 0.5em;
+    border: 0;
+    color: #eee;
+    font-size: 1em;
+    height: 100%;
+    width: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+  }
+
+
+
+.placeholder {
+    color: #65657b;
+    background-color: #262323;
+    padding: 0.6em;
+    border-radius: 1em;
+
+    font-family: sans-serif;
+    left: 20px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    transition: transform 200ms, color 200ms;
+    top: 10px;
+}
+
+.input:focus ~ .placeholder,
+.input:not(:placeholder-shown) ~ .placeholder {
+  transform: translateY(-27px) translateX(0px) scale(0.75);
+}

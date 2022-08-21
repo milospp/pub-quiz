@@ -1,0 +1,49 @@
+.quiz-game-player {
+
+    .question-text-content {
+        margin-top: 1em;
+        margin-bottom: 3em;
+    }
+
+    .answer-options {
+        flex-wrap: wrap;
+        .answer-option-wrapper {
+            padding: 0.25em;
+            width: 50%;
+
+            .answer-option {
+                background: red;
+                height: 100%;
+                position: relative;
+
+
+                .answer-option-btn {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 10;
+                    cursor: pointer;
+                }
+                .answer-content {
+                    padding: 1em;
+
+                    .answer-label {
+                        left: -0.3em;
+                        line-height: 1.3em;
+                        // top: -0.3em;
+                        font-size: 1.3em;
+                        font-weight: bold;
+                        position: relative;
+                    }
+                }
+
+                &:hover {
+                    background: rgb(209, 0, 0);
+                }
+                &:active {
+                    background: rgb(179, 0, 0);
+                }
+            }
+        }
+    }
+}

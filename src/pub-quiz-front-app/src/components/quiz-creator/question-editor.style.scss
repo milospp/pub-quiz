@@ -1,0 +1,26 @@
+.question-edit-box {
+    margin-bottom: 3em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid black;
+
+    .type-select {
+        width: 151px;
+        height: 38px;
+        background: #2523234a;
+        color: white;
+    }
+
+    .multiple-cb {
+        margin-left: 2em;
+        margin-top: 3px;
+        input {
+            width: 2em;
+            height: 2em;
+        }
+        label {
+            top: -8px;
+            position: relative;
+        }
+        
+    }
+}
