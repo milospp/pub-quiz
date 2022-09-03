@@ -5,20 +5,25 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/milospp/pub-quiz/pkg/config"
-	"github.com/milospp/pub-quiz/pkg/handlers"
+	"github.com/milospp/pub-quiz/src/go-auth-app/internal/config"
+	"github.com/milospp/pub-quiz/src/go-auth-app/internal/handlers"
 )
 
 func routes(app *config.AppConfig) http.Handler {
-	mux := chi.NewRouter()
+	r := chi.NewRouter()
 
-	mux.Use(middleware.Recoverer)
-	mux.Use(MiddlewareLogger)
+	r.Use(middleware.Recoverer)
+	r.Use(MiddlewareLogger)
+	r.Use(CorsMiddleware)
 
-	mux.Get("/", handlers.Repo.Home)
-	mux.Post("/login", handlers.Repo.Login)
-	mux.Post("/register", handlers.Repo.Register)
-	mux.Get("/quizzes", handlers.Repo.GetQuizes)
+	r.Get("/", handlers.Repo.Home)
+	r.Post("/login", handlers.Repo.Login)
+	r.Post("/register", handlers.Repo.Register)
 
-	return mux
+	r.Group(func(r chi.Router) {
+		r.Use(AuthMiddleware)
+		r.Get("/profile", handlers.Repo.GetLoggedUser)
+	})
+
+	return r
 }

@@ -22,19 +22,25 @@ create_table("quizzes") {
     t.Column("end_timestamp", "datetime", {"null": true})
     t.Column("room_code", "string")
     t.Column("room_password", "string", {"null": true})
+    t.Column("quiz_state", "string", {"default": "LOBBY"})
+    t.Column("quiz_question", "integer", {"default": 0})
+    t.Column("question_state", "integer", {"default": 0})
+
 }
 
 create_table("quiz_questions") {
     t.Column("id", "integer", {primary: true})
     t.Column("quiz_id", "integer")
-    t.Column("QuestionText", "string")
-    t.Column("AnswerType", "string", {"length": 10})
-    t.Column("AnswerText", "datetime")
-    t.Column("AnswerNumber", "string")
+    t.Column("order", "integer", {"default": 0})
+    t.Column("question_text", "string")
+    t.Column("answer_type", "string", {"length": 10})
+    t.Column("answer_text", "string", {"null": true})
+    t.Column("answer_number", "integer", {"null": true})
 }
 
-create_table("answer_option") {
+create_table("answer_options") {
     t.Column("id", "integer", {primary: true})
+    t.Column("order", "integer", {"default": 0})
     t.Column("value", "string")
     t.Column("correct", "bool")
     t.Column("quiz_question_id", "integer")

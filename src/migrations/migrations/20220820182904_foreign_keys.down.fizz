@@ -1,5 +1,5 @@
 drop_foreign_key("quiz_questions", "quiz_id", {"if_exists": true})
-drop_foreign_key("answer_option", "quiz_question_id", {"if_exists": true})
+drop_foreign_key("answer_options", "quiz_question_id", {"if_exists": true})
 drop_foreign_key("players", "quiz_id", {"if_exists": true})
 drop_foreign_key("players", "user_id", {"if_exists": true})
 drop_foreign_key("players", "anonymous_user_id", {"if_exists": true})

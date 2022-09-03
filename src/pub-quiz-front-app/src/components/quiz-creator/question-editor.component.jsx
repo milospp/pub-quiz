@@ -9,18 +9,17 @@ export function QuestionEditor(props) {
   const {question, setQuestion, id} = props
 
   function changedType(e) {
-    let answerType
     let newQuestionData = {...question}
 
     switch (e.target.value) {
       case "SELECT": 
         if (multiple)
-          newQuestionData.answerType = "SELECT"; 
+          newQuestionData.answer_type = "SELECT"; 
         else
-          newQuestionData.answerType = "MULTIPLE"; 
+          newQuestionData.answer_type = "MULTIPLE"; 
         
-        if (newQuestionData.answersOptions == null)
-          newQuestionData.answersOptions = [
+        if (newQuestionData.answer_options == null)
+          newQuestionData.answer_options = [
             {id: 1, value: 'Number 6', correct: true},
             {id: 2, value: 'Number 61', correct: false},
             {id: 3, value: 'Number 62', correct: false},
@@ -30,22 +29,22 @@ export function QuestionEditor(props) {
         break;
 
       case "NUMBER":
-        newQuestionData.answerType = "NUMBER"; 
-        if (newQuestionData.answerNumber == null)
-          newQuestionData.answerNumber = {value: 0, min:0, max:100000}
+        newQuestionData.answer_type = "NUMBER"; 
+        if (newQuestionData.answer_number == null)
+          newQuestionData.answer_number = 0
         
         break;
       
 
       case "TEXT":
-        newQuestionData.answerType = "TEXT";
-        if (newQuestionData.answerText == null)
-          newQuestionData.answerText = {value: ''}
+        newQuestionData.answer_type = "TEXT";
+        if (newQuestionData.answer_text == null)
+          newQuestionData.answer_text = {value: ''}
         
         
         break;
 
-      default: newQuestionData.answerType="SELECT"
+      default: newQuestionData.answer_type="SELECT"
     }
     setQuestion(newQuestionData, id)
 
@@ -57,16 +56,16 @@ export function QuestionEditor(props) {
 
   function changedMultiple(e) {
     const {checked} = e.target
-    let answerType = checked ? 'MULTIPLE' : 'SELECT' 
+    let answer_type = checked ? 'MULTIPLE' : 'SELECT' 
 
-    setQuestion({...question, answerType: answerType}, id)
+    setQuestion({...question, answer_type: answer_type}, id)
   }
 
   function showMultipleCheckbox(show) {
     if (show) {
       return (
         <div className='multiple-cb'>
-          <input onChange={changedMultiple} checked={question.answerType === 'MULTIPLE'} type="checkbox" name={'multiple-select-' + id} id={'multiple-select-' + id} />
+          <input onChange={changedMultiple} checked={question.answer_type === 'MULTIPLE'} type="checkbox" name={'multiple-select-' + id} id={'multiple-select-' + id} />
           <label htmlFor={'multiple-select-' + id}>Multiple answers</label>
         </div>
       )
@@ -75,21 +74,21 @@ export function QuestionEditor(props) {
     }
   }
 
-  function updateSelectAnswer(answersOptions) {
+  function updateSelectAnswer(answer_options) {
     let newQuestionData = {...question}
-    newQuestionData.answersOptions = answersOptions
+    newQuestionData.answer_options = answer_options
     setQuestion(newQuestionData, id)
   }
 
   function updateNumberAnswer(value) {
     let newQuestionData = {...question}
-    newQuestionData.answerNumber.value = value
+    newQuestionData.answer_number = value
     setQuestion(newQuestionData, id)
   }
 
   function updateTextAnswer(value) {
     let newQuestionData = {...question}
-    newQuestionData.answerText.value = value
+    newQuestionData.answer_text.value = value
     setQuestion(newQuestionData, id)
   }
 
@@ -105,8 +104,8 @@ export function QuestionEditor(props) {
   let typeSelect = "SELECT";
   let multiple = false;
 
-  if (question?.answerType) {
-    switch (question.answerType) {
+  if (question?.answer_type) {
+    switch (question.answer_type) {
       case "SELECT":
         typeSelect = "SELECT"
         multiple = false
@@ -123,7 +122,7 @@ export function QuestionEditor(props) {
         break;
 
       default:
-        setQuestion({...question, answerType: "SELECT"}, id)
+        setQuestion({...question, answer_type: "SELECT"}, id)
         
     }
 
@@ -135,7 +134,7 @@ export function QuestionEditor(props) {
   return (
     <div className="question-edit-box">
       <div className='input-component'>
-        <input id="firstname" className="input" onChange={handleChange} value={question.questionText} type="text" name='questionText' placeholder=" " />
+        <input id="firstname" className="input" onChange={handleChange} value={question.question_text} type="text" name='question_text' placeholder=" " />
         <label htmlFor="firstname" className="placeholder">Questions</label>
       </div>
       <div className="d-flex mb-2">
@@ -151,9 +150,9 @@ export function QuestionEditor(props) {
       
 
 
-      { typeSelect === 'SELECT' && <AnswerSelectEdiot id={id} answer={question.answersOptions} setAnswer={updateSelectAnswer} multiple={multiple} /> }
-      { typeSelect === 'NUMBER' && <AnswerNumberEdior id={id} answer={question.answerNumber} setAnswer={updateNumberAnswer} /> }
-      { typeSelect === 'TEXT' && <AnswerTextEditor id={id} answer={question.answerText} setAnswer={updateTextAnswer} /> }
+      { typeSelect === 'SELECT' && <AnswerSelectEdiot id={id} answer={question.answer_options} setAnswer={updateSelectAnswer} multiple={multiple} /> }
+      { typeSelect === 'NUMBER' && <AnswerNumberEdior id={id} answer={question.answer_number} setAnswer={updateNumberAnswer} /> }
+      { typeSelect === 'TEXT' && <AnswerTextEditor id={id} answer={question.answer_text} setAnswer={updateTextAnswer} /> }
 
     </div>
   )

@@ -1,7 +1,7 @@
 sql("drop table section")
 sql("drop table player_answer")
 sql("drop table players")
-sql("drop table answer_option")
+sql("drop table answer_options")
 sql("drop table quiz_questions")
 sql("drop table quizzes")
 sql("drop table anonymous_user")

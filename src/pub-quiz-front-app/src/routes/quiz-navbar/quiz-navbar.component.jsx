@@ -10,8 +10,9 @@ export default function QuizNavbar() {
       </div>
       <div className='links'>
         <ul>
-          <li><Link to={'/player'}>Player</Link></li>
-          <li><Link to={'/lobby'}>Lobby</Link></li>
+          <li><Link to={'/'}>Leave</Link></li>
+          {/* <li><Link to={'/player'}>Player</Link></li> */}
+          {/* <li><Link to={'/lobby'}>Lobby</Link></li> */}
         </ul>
       </div>
     </nav>

@@ -12,7 +12,7 @@ export default function AnswerNumberEdior(props) {
   return (
     <div>
         <div className='d-flex'>
-            <input onChange={changeAnswerText} value={answer?.value} className='choice-answer-input' type="number" name={'number-answer-' + id} id={'number-answer-' + id} />
+            <input onChange={changeAnswerText} value={answer} className='choice-answer-input' type="number" name={'number-answer-' + id} id={'number-answer-' + id} />
         </div>     
 
     </div>

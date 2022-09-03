@@ -3,7 +3,7 @@ add_foreign_key("quiz_questions", "quiz_id", {"quizzes": ["id"]}, {
     "on_update": "cascade",
 })
 
-add_foreign_key("answer_option", "quiz_question_id", {"quiz_questions": ["id"]}, {
+add_foreign_key("answer_options", "quiz_question_id", {"quiz_questions": ["id"]}, {
     "on_delete": "cascade",
     "on_update": "cascade",
 })

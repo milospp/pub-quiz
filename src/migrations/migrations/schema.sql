@@ -58,10 +58,10 @@ ALTER SEQUENCE public.anonymous_user_id_seq OWNED BY public.anonymous_user.id;
 
 
 --
--- Name: answer_option; Type: TABLE; Schema: public; Owner: postgres
+-- Name: answer_options; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.answer_option (
+CREATE TABLE public.answer_options (
     id integer NOT NULL,
     value character varying(255) NOT NULL,
     correct boolean NOT NULL,
@@ -71,13 +71,13 @@ CREATE TABLE public.answer_option (
 );
 
 
-ALTER TABLE public.answer_option OWNER TO postgres;
+ALTER TABLE public.answer_options OWNER TO postgres;
 
 --
--- Name: answer_option_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: answer_options_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.answer_option_id_seq
+CREATE SEQUENCE public.answer_options_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -86,13 +86,13 @@ CREATE SEQUENCE public.answer_option_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.answer_option_id_seq OWNER TO postgres;
+ALTER TABLE public.answer_options_id_seq OWNER TO postgres;
 
 --
--- Name: answer_option_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: answer_options_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.answer_option_id_seq OWNED BY public.answer_option.id;
+ALTER SEQUENCE public.answer_options_id_seq OWNED BY public.answer_options.id;
 
 
 --
@@ -180,10 +180,10 @@ ALTER SEQUENCE public.players_id_seq OWNED BY public.players.id;
 CREATE TABLE public.quiz_questions (
     id integer NOT NULL,
     quiz_id integer NOT NULL,
-    "QuestionText" character varying(255) NOT NULL,
-    "AnswerType" character varying(255) NOT NULL,
-    "AnswerText" timestamp with time zone NOT NULL,
-    "AnswerNumber" character varying(255) NOT NULL,
+    question_text character varying(255) NOT NULL,
+    answer_type character varying(255) NOT NULL,
+    answer_text character varying(255),
+    answer_number integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -224,9 +224,13 @@ CREATE TABLE public.quizzes (
     start_timestamp timestamp with time zone,
     end_timestamp timestamp with time zone,
     room_code character varying(255) NOT NULL,
-    room_password character varying(255) NOT NULL,
+    room_password character varying(255),
+    quiz_state character varying(255) DEFAULT 'LOBBY'::character varying NOT NULL,
+    quiz_question integer DEFAULT 0 NOT NULL,
+    question_state integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    organizer_id integer NOT NULL
 );
 
 
@@ -350,10 +354,10 @@ ALTER TABLE ONLY public.anonymous_user ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- Name: answer_option id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: answer_options id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.answer_option ALTER COLUMN id SET DEFAULT nextval('public.answer_option_id_seq'::regclass);
+ALTER TABLE ONLY public.answer_options ALTER COLUMN id SET DEFAULT nextval('public.answer_options_id_seq'::regclass);
 
 
 --
@@ -407,11 +411,11 @@ ALTER TABLE ONLY public.anonymous_user
 
 
 --
--- Name: answer_option answer_option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: answer_options answer_options_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.answer_option
-    ADD CONSTRAINT answer_option_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.answer_options
+    ADD CONSTRAINT answer_options_pkey PRIMARY KEY (id);
 
 
 --
@@ -470,11 +474,11 @@ CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USIN
 
 
 --
--- Name: answer_option answer_option_quiz_questions_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: answer_options answer_options_quiz_questions_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.answer_option
-    ADD CONSTRAINT answer_option_quiz_questions_id_fk FOREIGN KEY (quiz_question_id) REFERENCES public.quiz_questions(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.answer_options
+    ADD CONSTRAINT answer_options_quiz_questions_id_fk FOREIGN KEY (quiz_question_id) REFERENCES public.quiz_questions(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -515,6 +519,14 @@ ALTER TABLE ONLY public.players
 
 ALTER TABLE ONLY public.quiz_questions
     ADD CONSTRAINT quiz_questions_quizzes_id_fk FOREIGN KEY (quiz_id) REFERENCES public.quizzes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: quizzes quizzes_users_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.quizzes
+    ADD CONSTRAINT quizzes_users_id_fk FOREIGN KEY (organizer_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

@@ -5,7 +5,7 @@ import QuizNavbar from '../quiz-navbar/quiz-navbar.component'
 
 export const QuizTemplate = () => {
 
-
+  console.log("Quiz tempalte");
   return (
     
     <div>

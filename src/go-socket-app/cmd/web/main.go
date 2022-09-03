@@ -2,28 +2,13 @@ package main
 
 import (
 	"net"
-	"time"
 
-	"github.com/go-stomp/stomp"
+	"github.com/milospp/pub-quiz/src/go-socket-app/internal/services"
 )
 
-func doSomethingWith(f ...interface{}) {
-
-}
+var clients = make(map[*net.Conn]bool)
 
 func main() {
-	netConn, err := net.DialTimeout("tcp", "stomp.server.com:61613", 10*time.Second)
-	if err != nil {
-		return
-	}
-
-	stompConn, err := stomp.Connect(netConn)
-	if err != nil {
-		return
-	}
-
-	defer stompConn.Disconnect()
-
-	doSomethingWith(stompConn)
-	return
+	go services.HandleLogicServices()
+	services.HandleSocketService()
 }

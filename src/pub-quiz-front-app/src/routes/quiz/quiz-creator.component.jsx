@@ -1,19 +1,30 @@
+import axios from 'axios'
 import React from 'react'
+import { toast } from 'react-toastify'
 import { QuestionEditor } from '../../components/quiz-creator/question-editor.component.jsx'
+import configData from '../../config.js'
+import { useNavigate } from 'react-router-dom';
 
 import './quiz-creator.style.scss'
 
 
 export function QuizCreator() {
+  const navigate = useNavigate();
+
+  const [quizInfo, setQuizInfo] = React.useState({
+    quiz_name: "",
+    start_schedule: "2022-08-23",
+    start_schedule_time: "12:00",
+  })
 
   const [questions, setQuestions] = React.useState([
 
     {
-      questionText: 'Question #1',
-      answerType: "SELECT",
-      answerText: null,
-      answerNumber: {value: 0},
-      answersOptions: [
+      question_text: 'Question #1',
+      answer_type: "SELECT",
+      answer_text: null,
+      answer_number: {value: 0},
+      answer_options: [
         {id: 1, value: 'Number 6', correct: true},
         {id: 2, value: 'Number 61', correct: false},
         {id: 3, value: 'Number 62', correct: true},
@@ -22,10 +33,10 @@ export function QuizCreator() {
   
     },
     {
-      questionText: 'Question #2',
-      answerType: "NUMBER",
-      answerText: null,
-      answerNumber: {value: 100},
+      question_text: 'Question #2',
+      answer_type: "NUMBER",
+      answer_text: null,
+      answer_number: 100,
   
     }
   ])
@@ -46,18 +57,42 @@ export function QuizCreator() {
     })
   }
 
-  function createQuiz() {
-    console.log(questions);
+  async function createQuiz() {
+    let quizObj = {
+      ...quizInfo,
+      quiz_questions: questions
+    }
+    // TODO: FIX TIMEZONE
+    quizObj.start_schedule = quizObj.start_schedule + "T" + quizObj.start_schedule_time + ":00Z"
+
+    let res;
+    try {
+      res = await postQuiz(quizObj);
+      navigate(`/game/${res.data.room_code}`)
+      toast.success("Quiz Created")
+    } catch (error) {
+      toast.error("Cannot post quiz check it again")
+    }
+
+    console.log(res);
+  }
+
+  async function postQuiz(data) {
+    return axios({
+      method: "post",
+      url: `${configData.QUIZ_SERVICE_URL}/quiz`,
+      data: data,
+    })
   }
 
   function addQuestion() {
     setQuestions(questions => {
       return [...questions, {
-        questionText: 'Question #' + (questions.length + 1),
-        answerType: "SELECT",
-        answerText: null,
-        answerNumber: {value: 0},
-        answersOptions: [
+        question_text: 'Question #' + (questions.length + 1),
+        answer_type: "SELECT",
+        answer_text: null,
+        answer_number: {value: 0},
+        answer_options: [
           {id: 1, value: 'Answer 1', correct: true},
           {id: 2, value: 'Answer 2', correct: false},
           {id: 3, value: 'Answer 3', correct: true},
@@ -66,6 +101,18 @@ export function QuizCreator() {
       }]
     })
   }
+
+  function handleChange(e) {
+    const { name, value, type, checked } = e.target
+    let result = type === "checkbox" ? checked : value
+    setQuizInfo(prevData => {
+      return {
+        ...prevData,
+        [name]: result
+      }
+    })
+  }
+
 
   console.log("QUIZ CREATOR");
 
@@ -76,7 +123,7 @@ export function QuizCreator() {
 
       <div className="basic-info">
         <div className='input-component'>
-          <input id="firstname" className="input" type="text" placeholder=" " />
+          <input id="firstname" className="input" name="quiz_name" type="text" onChange={handleChange} value={quizInfo.quiz_name} placeholder=" " />
           <div className="cut"></div>
           <label htmlFor="firstname" className="placeholder">Quiz name</label>
         </div>
@@ -84,13 +131,13 @@ export function QuizCreator() {
 
         <div className="d-flex gap-1">
           <div className='input-component'>
-            <input id="firstname" className="input" type="date" placeholder=" " />
+            <input id="firstname" className="input" name="start_schedule" onChange={handleChange} type="date" value={quizInfo.start_schedule} placeholder=" " />
             <div className="cut"></div>
             <label htmlFor="firstname" className="placeholder">Date</label>
           </div>
 
           <div className='input-component'>
-            <input id="firstname" className="input" type="time" placeholder=" " />
+            <input id="firstname" className="input" name="start_schedule_time" onChange={handleChange} value={quizInfo.start_schedule_time} type="time" placeholder=" " />
             <div className="cut"></div>
             <label htmlFor="firstname" className="placeholder">Time</label>
           </div>

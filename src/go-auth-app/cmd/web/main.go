@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/milospp/pub-quiz/pkg/config"
-	"github.com/milospp/pub-quiz/pkg/driver"
-	"github.com/milospp/pub-quiz/pkg/handlers"
+	"github.com/milospp/pub-quiz/src/go-auth-app/internal/config"
+	"github.com/milospp/pub-quiz/src/go-auth-app/internal/driver"
+	"github.com/milospp/pub-quiz/src/go-auth-app/internal/handlers"
 )
 
 const portNumber = ":8000"
