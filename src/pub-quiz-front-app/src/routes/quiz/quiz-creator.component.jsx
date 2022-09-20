@@ -23,6 +23,8 @@ export function QuizCreator() {
       question_text: 'Question #1',
       answer_type: "SELECT",
       answer_text: null,
+      room_password: "",
+      quiz_type: 0,
       answer_number: {value: 0},
       answer_options: [
         {id: 1, value: 'Number 6', correct: true},
@@ -128,6 +130,24 @@ export function QuizCreator() {
           <label htmlFor="firstname" className="placeholder">Quiz name</label>
         </div>
 
+        <div className="d-flex gap-1">
+
+          <div className='input-component'>
+            <input id="firstname" className="input" name="room_password" type="password" onChange={handleChange} value={quizInfo.room_password} placeholder=" " />
+            <div className="cut"></div>
+            <label htmlFor="firstname" className="placeholder">Room password</label>
+          </div>
+
+          <div className='input-component'>
+            <select className='type-select' onChange={handleChange} name="quiz_type" value={quizInfo.quiz_type}>
+              <option value="0">Private quiz</option>
+              <option value="1">Public Quiz</option>
+              <option value="2">Tournament</option>
+            </select>
+
+          </div>
+
+        </div>
 
         <div className="d-flex gap-1">
           <div className='input-component'>

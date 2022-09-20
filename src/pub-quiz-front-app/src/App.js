@@ -28,7 +28,7 @@ function App() {
   function getUser() {
     axios({
         method: "get",
-        url: `${configData.AUTH_SERVICE_URL}/profile`,
+        url: `${configData.GATEWAY_SERVICE_URL}/profile`,
   
         headers: {
             'Authorization': `Bearer ${window.sessionStorage.getItem("token")}` 
@@ -53,6 +53,7 @@ function App() {
   return (
       <Routes>
         <Route path='/' element={<HomeTemplate />}>
+          <Route path='/' element={<Home />} /> 
           <Route path='/login' element={<Login />} /> 
           <Route path='/questions' element={<Questions />} /> 
           <Route path='/create-quiz' element={<QuizCreator />} /> 

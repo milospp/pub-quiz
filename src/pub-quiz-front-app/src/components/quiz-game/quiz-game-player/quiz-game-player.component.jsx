@@ -9,28 +9,44 @@ export default function QuizGamePlayer(props) {
   const [answerData, setAnswerData] = React.useState("")
 
   function changeAnswer(e) {
-    const { name, value, type, checked } = e.target
+    let { name, value, type, checked } = e.target
     let result = type === "checkbox" ? checked : value
+    if (name === "num-answer") value = parseInt(value)
     setAnswerData(value)
   }
 
-  function selectAnswer(id) {
+  function selectAnswer(option) {
     if (question?.answer_type === "SELECT") {
-      setAnswerData(id)
+      setAnswerData(option)
       setSubmited(true)
-      sendAnswer(id)
+      sendAnswer(question.id, option)
     }
   }
 
   function submitAnswer() {
     setSubmited(true)
-    sendAnswer(answerData)
+    sendAnswer(question.id, answerData)
   }
 
   React.useEffect(() => {
-    if (quiz?.question_state === 0) setSubmited(false)
-    if (quiz?.question_state === 4) setAnswerData(false)
+    if (quiz?.question_state === 0) setSubmited(true)
+    if (quiz?.question_state === 2) setSubmited(false)
+    if (quiz?.question_state === 3) setSubmited(false)
+    if (quiz?.question_state === 4) setAnswerData("")
   },[quiz])
+
+  function getStateTitle(state) {
+    switch (state) {
+      case 0: return "Prepare for question"
+      case 1: return "Question:"
+      case 2: return "Place answer"
+      case 3: return "Times up!"
+      case 4: return "Solution!"
+        
+      default:
+        return "";
+    }
+  }
 
   let selectAnswerClass = "answer"
   selectAnswerClass += quiz?.question_state !== 2 || isSubmited ? ' disabled' : ' '
@@ -43,6 +59,7 @@ export default function QuizGamePlayer(props) {
 
   return (
     <div className='container quiz-game-player'>
+      <h4>{getStateTitle(quiz?.question_state)}</h4>
       <div className='question-text-content'>
         <h2>{question?.question_text}</h2>
       </div>

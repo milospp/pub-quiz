@@ -12,4 +12,9 @@ type RegisterDTO struct {
 	FirstName string `json:"firstname"`
 	LastName  string `json:"lastname"`
 	Team      string `json:"team"`
+	Role      int    `json:"role"`
+}
+
+type AnonymousUserRegDTO struct {
+	Name string `json:"name"`
 }

@@ -6,7 +6,7 @@ export default function AnswerNumberEdior(props) {
 
   function changeAnswerText(e) {
     const value = e.target.value
-    setAnswer(value)
+    setAnswer(parseInt(value))
   }
 
   return (

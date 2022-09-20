@@ -5,8 +5,10 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux'
 import { setUser } from '../../store/userRedux'
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
+  const navigate = useNavigate();
   const loggedUser = useSelector((state) => state.user.value)
   const dispatch = useDispatch()
 
@@ -30,7 +32,7 @@ export const Login = () => {
     console.log(loginData);
     axios({
       method: "post",
-      url: `${configData.AUTH_SERVICE_URL}/login`,
+      url: `${configData.GATEWAY_SERVICE_URL}/login`,
       data: loginData,
     }).then((result) => {
       console.log(result);
@@ -40,14 +42,14 @@ export const Login = () => {
       getUser();
       // toast.success("Successfuly");
       // getUser();
-      // history.push("/home")
+      navigate("/quizzes")
     })
   }
 
   function getUser() {
     axios({
         method: "get",
-        url: `${configData.AUTH_SERVICE_URL}/profile`,
+        url: `${configData.GATEWAY_SERVICE_URL}/profile`,
   
         headers: {
             'Authorization': `Bearer ${window.sessionStorage.getItem("token")}` 
@@ -55,6 +57,7 @@ export const Login = () => {
     })
     .then((result) => {
         toast.success("Successfuly");
+
         dispatch(setUser(result.data))
   
     })
@@ -74,7 +77,7 @@ export const Login = () => {
     console.log(registerData);
     axios({
       method: "post",
-      url: `${configData.AUTH_SERVICE_URL}/register`,
+      url: `${configData.GATEWAY_SERVICE_URL}/register`,
       data: registerData,
     }).then((result) => {
       console.log(result);
@@ -100,6 +103,9 @@ export const Login = () => {
         }
     });
   }
+  React.useEffect(() => {
+    dispatch(setUser(null))
+  }, [])
 
   return (
 

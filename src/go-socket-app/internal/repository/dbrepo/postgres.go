@@ -2,9 +2,11 @@ package dbrepo
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"time"
 
-	"github.com/milospp/pub-quiz/src/go-socket-app/internal/models"
+	"github.com/milospp/pub-quiz/src/go-global/models"
 	"github.com/milospp/pub-quiz/src/go-socket-app/internal/utils"
 )
 
@@ -322,4 +324,160 @@ func (m *postgresDBRepo) GetAnswerOptions(quizQuestionID int) ([]models.AnswerOp
 	}
 
 	return answerOptions, nil
+}
+
+func (m *postgresDBRepo) InsertPlayer(p models.Player) (models.Player, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	defer cancel()
+
+	stmt := `INSERT INTO players (role, quiz_id, user_id, anonymous_user_id, status, created_at, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;`
+
+	row := m.DB.QueryRowContext(ctx, stmt,
+		p.Role,
+		p.QuizID,
+		p.UserID,
+		p.AnonymousUserID,
+		p.Status,
+		time.Now(),
+		time.Now(),
+	)
+
+	var id int
+	err := row.Scan(&id)
+	if err != nil {
+		fmt.Println("Error insert player")
+		fmt.Println(err)
+		return models.Player{}, err
+	}
+
+	p.ID = int(id)
+	return p, nil
+}
+
+func (m *postgresDBRepo) UpdatePlayer(p models.Player) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	defer cancel()
+
+	stmt := `
+		UPDATE players
+		SET role = $2,
+		quiz_id = $3,
+		user_id = $4,
+		anonymous_user_id = $5
+		status = $6
+		updated_at = $7
+		WHERE id = $1
+	`
+
+	_, err := m.DB.ExecContext(ctx, stmt,
+		p.ID,
+		p.Role,
+		p.QuizID,
+		p.UserID,
+		p.AnonymousUserID,
+		p.Status,
+		time.Now(),
+	)
+	fmt.Println(err)
+
+	return err
+
+}
+
+//////////////////////
+
+func (m *postgresDBRepo) GetQuestionPlayerAnswers(qID int) ([]models.PlayerAnswer, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `SELECT id, answer, player_id, question_id, timestamp, timestamp_client FROM player_answer WHERE quiz_id=$1`
+
+	var pas []models.PlayerAnswer
+
+	rows, err := m.DB.QueryContext(ctx, query, qID)
+	if err != nil {
+		return pas, err
+	}
+
+	for rows.Next() {
+		var pa models.PlayerAnswer
+		err := rows.Scan(
+			&pa.ID,
+			&pa.Answer,
+			&pa.PlayerID,
+			&pa.QuestionID,
+			&pa.Timestamp,
+			&pa.TimestampClient,
+		)
+		if err != nil {
+			return pas, err
+		}
+		pas = append(pas, pa)
+	}
+
+	return pas, nil
+}
+
+func (m *postgresDBRepo) InsertPlayerAnswer(pa models.PlayerAnswer) (models.PlayerAnswer, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	defer cancel()
+
+	stmt := `INSERT INTO player_answer (answer, player_id, question_id, timestamp, timestamp_client, created_at, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;`
+
+	row := m.DB.QueryRowContext(ctx, stmt,
+		pa.Answer,
+		pa.PlayerID,
+		pa.QuestionID,
+		pa.Timestamp,
+		pa.TimestampClient,
+		time.Now(),
+		time.Now(),
+	)
+
+	var id int
+	err := row.Scan(&id)
+	if err != nil {
+		fmt.Println("Error insert player answer")
+		fmt.Println(err)
+		return models.PlayerAnswer{}, err
+	}
+
+	pa.ID = int(id)
+	return pa, nil
+}
+
+func (m *postgresDBRepo) UpdatePlayerAnswer(pa models.PlayerAnswer) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	defer cancel()
+
+	stmt := `
+		UPDATE player_answer
+		SET answer = $2,
+		player_id = $3,
+		question_id = $4,
+		timestamp = $5,
+		timestamp_client = $6,
+		updated_at = $1
+		WHERE player_id = $3 AND question_id = $4
+	`
+
+	updated, err := m.DB.ExecContext(ctx, stmt,
+		time.Now(),
+		pa.Answer,
+		pa.PlayerID,
+		pa.QuestionID,
+		pa.Timestamp,
+		pa.TimestampClient,
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+	affected, err := updated.RowsAffected()
+	if err != nil || affected == 0 {
+		return errors.New("")
+	}
+	return err
+
 }

@@ -50,13 +50,15 @@ create_table("players") {
     t.Column("id", "integer", {primary: true})
     t.Column("role", "integer")
     t.Column("quiz_id", "integer")
-    t.Column("user_id", "integer")
-    t.Column("anonymous_user_id", "integer")
+    t.Column("user_id", "integer", {"null": true})
+    t.Column("anonymous_user_id", "integer", {"null": true})
+    t.Column("status", "integer", {"default": 0})
 }
 
 create_table("player_answer") {
     t.Column("id", "integer", {primary: true})
     t.Column("answer", "string")
+    t.Column("question_id", "integer")
     
     t.Column("player_id", "integer")
     t.Column("timestamp", "datetime")

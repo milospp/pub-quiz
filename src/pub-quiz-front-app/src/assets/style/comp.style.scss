@@ -39,3 +39,10 @@
 .input:not(:placeholder-shown) ~ .placeholder {
   transform: translateY(-27px) translateX(0px) scale(0.75);
 }
+
+.input-component select {
+  background-color: #262323;
+  color: #eee;
+  padding: 1em;
+  width: 100%;
+}

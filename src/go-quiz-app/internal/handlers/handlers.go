@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/go-chi/chi"
+	"github.com/milospp/pub-quiz/src/go-global/models"
 	"github.com/milospp/pub-quiz/src/go-quiz-app/internal/config"
 	"github.com/milospp/pub-quiz/src/go-quiz-app/internal/driver"
-	"github.com/milospp/pub-quiz/src/go-quiz-app/internal/models"
 	"github.com/milospp/pub-quiz/src/go-quiz-app/internal/repository"
 	"github.com/milospp/pub-quiz/src/go-quiz-app/internal/repository/dbrepo"
 	"github.com/milospp/pub-quiz/src/go-quiz-app/internal/utils"

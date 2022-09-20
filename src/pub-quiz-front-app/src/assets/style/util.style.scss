@@ -29,8 +29,15 @@
     display: flex;
 }
 
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
 .gap-1 {
     gap: 1em
+}
+.gap-2 {
+    gap: 2em
 }
 
 .btn {
@@ -40,8 +47,13 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: inline-block;
 }
 
 .btn:hover {
     background: rgb(218, 27, 91);
+}
+
+.c-white {
+    color: white;
 }

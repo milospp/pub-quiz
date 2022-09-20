@@ -2,11 +2,14 @@ module github.com/milospp/pub-quiz/src/go-socket-app
 
 go 1.19
 
+replace github.com/milospp/pub-quiz/src/go-global => ../go-global
+
 require (
 	github.com/gobwas/ws v1.1.0
 	github.com/jackc/pgconn v1.13.0
 	github.com/jackc/pgx/v4 v4.17.0
 	golang.org/x/crypto v0.0.0-20220817201139-bc19a97f63c8
+	github.com/milospp/pub-quiz/src/go-global v1.0.0
 )
 
 require (

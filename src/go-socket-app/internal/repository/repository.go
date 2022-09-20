@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/milospp/pub-quiz/src/go-socket-app/internal/models"
+	"github.com/milospp/pub-quiz/src/go-global/models"
 	"github.com/milospp/pub-quiz/src/go-socket-app/internal/utils"
 )
 
@@ -16,6 +16,13 @@ type DatabaseRepo interface {
 	GetFullQuiz(int) (models.Quiz, error)
 	GetQuestionsFull(int) ([]models.QuizQuestion, error)
 	GetAnswerOptions(int) ([]models.AnswerOptions, error)
+
+	InsertPlayer(models.Player) (models.Player, error)
+	UpdatePlayer(models.Player) error
+
+	GetQuestionPlayerAnswers(int) ([]models.PlayerAnswer, error)
+	InsertPlayerAnswer(models.PlayerAnswer) (models.PlayerAnswer, error)
+	UpdatePlayerAnswer(models.PlayerAnswer) error
 
 	// SetQuizGameState(int, string)
 }

@@ -13,7 +13,7 @@ function Navbar() {
     <nav className='navbar'>
       <div className='logo
       '>
-        <h1>Logo</h1>
+        <h1 className='c-white'><Link to={'/'}>Logo</Link></h1>
       </div>
       <div className='links'>
         <ul>

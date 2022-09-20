@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/milospp/pub-quiz/src/go-quiz-app/internal/models"
+	"github.com/milospp/pub-quiz/src/go-global/models"
 )
 
 type DatabaseRepo interface {

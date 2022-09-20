@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -43,10 +44,12 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return []byte("DontHeckMe"), nil
 		})
 		if err != nil {
+			fmt.Println(err)
 			w.WriteHeader(403)
 			return
 		}
 		if token.Valid == false {
+			fmt.Println("invladi token")
 			w.WriteHeader(403)
 			return
 		}

@@ -1,13 +1,14 @@
 
 import React from 'react'
+import HomePage from '../../components/home-page/HomePage'
 
 export const Home = () => {
 
 
   return (
     
-    <div>
-      <h1>PUB QUIZ</h1>
+    <div className='container'>
+      <HomePage />
 
     </div>
   )

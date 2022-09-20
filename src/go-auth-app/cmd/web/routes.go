@@ -20,9 +20,14 @@ func routes(app *config.AppConfig) http.Handler {
 	r.Post("/login", handlers.Repo.Login)
 	r.Post("/register", handlers.Repo.Register)
 
+	r.Get("/users/{id}", handlers.Repo.GetUser)
+	r.Get("/anonymous-users/{id}", handlers.Repo.GetAnonymousUser)
+	r.Post("/anonymous-users", handlers.Repo.CreateAnonymousUser)
+
 	r.Group(func(r chi.Router) {
 		r.Use(AuthMiddleware)
 		r.Get("/profile", handlers.Repo.GetLoggedUser)
+
 	})
 
 	return r

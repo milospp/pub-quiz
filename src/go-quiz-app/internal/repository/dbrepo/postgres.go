@@ -2,11 +2,10 @@ package dbrepo
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"time"
 
-	"github.com/milospp/pub-quiz/src/go-quiz-app/internal/models"
+	"github.com/milospp/pub-quiz/src/go-global/models"
 )
 
 func (m *postgresDBRepo) GetQuizInfoByCode(code string) (models.Quiz, error) {
@@ -136,7 +135,7 @@ func (m *postgresDBRepo) GetScheduledQuizes() ([]models.Quiz, error) {
 	var quizzes []models.Quiz
 
 	query := `
-		select q.id, q.quiz_name, q.start_schedule, q.start_timestamp, q.end_timestamp, q.room_code, q.room_password from quizzes q
+		select q.id, q.quiz_name, q.start_schedule, q.start_timestamp, q.end_timestamp, q.room_code, q.room_password, q.quiz_type from quizzes q
 	`
 
 	rows, err := m.DB.QueryContext(ctx, query)
@@ -155,6 +154,7 @@ func (m *postgresDBRepo) GetScheduledQuizes() ([]models.Quiz, error) {
 			&quiz.RoomCode,
 			&quiz.RoomPassword,
 			&quiz.QuizQuestions,
+			&quiz.QuizType,
 		)
 		if err != nil {
 			return quizzes, err
@@ -189,7 +189,7 @@ func (m *postgresDBRepo) CreateQuiz(q models.Quiz) (models.Quiz, error) {
 		nil,
 		nil,
 		q.RoomCode,
-		sql.NullString{},
+		q.RoomPassword,
 		time.Now(),
 		time.Now(),
 	)
@@ -227,7 +227,7 @@ func (m *postgresDBRepo) insertQuestion(qs []models.QuizQuestion, qID int, ctx c
 			q.QuestionText,
 			q.AnswerType,
 			q.AnswerText,
-			q.AnswerNumber,
+			q.AnswerNumber.Int64,
 			time.Now(),
 			time.Now(),
 		)
@@ -243,13 +243,13 @@ func (m *postgresDBRepo) insertQuestion(qs []models.QuizQuestion, qID int, ctx c
 		q.ID = id
 		fmt.Println(q.ID)
 
-		var answerOptions []models.AnswerOption
-		for _, ao := range q.AnswerOpttions {
+		var answerOptions []models.AnswerOptions
+		for _, ao := range q.AnswerOptions {
 			ao = m.insertAnswerOption(ao, int(id), ctx)
 			answerOptions = append(answerOptions, ao)
 		}
 
-		q.AnswerOpttions = answerOptions
+		q.AnswerOptions = answerOptions
 
 		questions = append(questions, q)
 
@@ -259,7 +259,7 @@ func (m *postgresDBRepo) insertQuestion(qs []models.QuizQuestion, qID int, ctx c
 
 }
 
-func (m *postgresDBRepo) insertAnswerOption(ao models.AnswerOption, qqID int, ctx context.Context) models.AnswerOption {
+func (m *postgresDBRepo) insertAnswerOption(ao models.AnswerOptions, qqID int, ctx context.Context) models.AnswerOptions {
 	fmt.Println("ADDING Answer Option")
 
 	stmt := `INSERT INTO answer_options (value, correct, quiz_question_id, created_at, updated_at)
@@ -278,7 +278,7 @@ func (m *postgresDBRepo) insertAnswerOption(ao models.AnswerOption, qqID int, ct
 	if err != nil {
 		fmt.Println(err)
 		fmt.Errorf("Cannot save answer option")
-		return models.AnswerOption{}
+		return models.AnswerOptions{}
 	}
 
 	ao.ID = int(id)

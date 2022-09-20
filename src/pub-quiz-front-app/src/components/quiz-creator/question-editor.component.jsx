@@ -39,8 +39,7 @@ export function QuestionEditor(props) {
       case "TEXT":
         newQuestionData.answer_type = "TEXT";
         if (newQuestionData.answer_text == null)
-          newQuestionData.answer_text = {value: ''}
-        
+          newQuestionData.answer_text = ""
         
         break;
 
@@ -62,16 +61,17 @@ export function QuestionEditor(props) {
   }
 
   function showMultipleCheckbox(show) {
-    if (show) {
-      return (
-        <div className='multiple-cb'>
-          <input onChange={changedMultiple} checked={question.answer_type === 'MULTIPLE'} type="checkbox" name={'multiple-select-' + id} id={'multiple-select-' + id} />
-          <label htmlFor={'multiple-select-' + id}>Multiple answers</label>
-        </div>
-      )
-    } else {
-      return
-    }
+    return
+    // if (show) {
+    //   return (
+    //     <div className='multiple-cb'>
+    //       <input onChange={changedMultiple} checked={question.answer_type === 'MULTIPLE'} type="checkbox" name={'multiple-select-' + id} id={'multiple-select-' + id} />
+    //       <label htmlFor={'multiple-select-' + id}>Multiple answers</label>
+    //     </div>
+    //   )
+    // } else {
+    //   return
+    // }
   }
 
   function updateSelectAnswer(answer_options) {
@@ -88,7 +88,7 @@ export function QuestionEditor(props) {
 
   function updateTextAnswer(value) {
     let newQuestionData = {...question}
-    newQuestionData.answer_text.value = value
+    newQuestionData.answer_text = value
     setQuestion(newQuestionData, id)
   }
 

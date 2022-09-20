@@ -6,6 +6,8 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gobwas/ws"
 	"github.com/gobwas/ws/wsutil"
@@ -33,12 +35,31 @@ func HandleSocketService() {
 
 		go func() {
 			defer conn.Close()
-			// fmt.Println(conn)
+
+			roomId, err := strconv.Atoi(strings.Split(r.URL.Path, "/")[1])
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			fmt.Println(roomId)
 
 			for {
 				msg, op, err := wsutil.ReadClientData(conn)
 				if err != nil {
 					fmt.Println("error loading")
+
+					msgStruct := dto.SocketRequest{
+						RoomID: roomId,
+						Method: "DISCONNECTED",
+						
+					}
+					msgStructByte, _ := json.Marshal(msgStruct)
+
+					ch <- ConnectionData{
+						Conn:    conn,
+						Message: msgStructByte,
+					}
 					return
 				}
 

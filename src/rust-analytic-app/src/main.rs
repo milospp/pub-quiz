@@ -1,34 +1,33 @@
-// #[macro_use]
-// extern crate rocket;
+use std::thread;
 
-// mod utils;
-
-// use rocket::serde::json::Json;
-// use rocket::{routes, Build, Rocket};
-// use std::thread;
-// use utils::Quiz;
-
-// #[get("/<id>")]
-// fn get_all_active_quizes(id: i32) -> Json<String> {
-//     thread::spawn(move || Json(utils::get_qll_quizzes(id).unwrap()))
-//         .join()
-//         .unwrap()
-// }
-
-// #[launch]
-// fn rocket() -> Rocket<Build> {
-//     rocket::build().mount("/api/analytics", routes![get_all_active_quizes])
-// }
+use rocket::response::content;
+use rust_analytic_app::handlers;
 
 #[macro_use]
 extern crate rocket;
 
 #[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+fn index() -> content::RawJson<String> {
+    thread::spawn(move || content::RawJson(handlers::test_db().unwrap()))
+        .join()
+        .unwrap()
+}
+
+#[get("/quiz/<quiz_id>")]
+fn get_quiz(quiz_id: i32) -> content::RawJson<String> {
+    thread::spawn(move || content::RawJson(handlers::get_full_quiz(quiz_id).unwrap()))
+        .join()
+        .unwrap()
+}
+
+#[get("/quiz-stats/<quiz_id>")]
+fn get_quiz_stats(quiz_id: i32) -> content::RawJson<String> {
+    thread::spawn(move || content::RawJson(handlers::get_stats_quiz(quiz_id).unwrap()))
+        .join()
+        .unwrap()
 }
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+    rocket::build().mount("/", routes![index, get_quiz, get_quiz_stats])
 }
