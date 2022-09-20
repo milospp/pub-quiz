@@ -2,8 +2,10 @@ package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -37,4 +39,29 @@ func RandSeq(n int) string {
 		b[i] = randLetters[rand.Intn(len(randLetters))]
 	}
 	return string(b)
+}
+
+func GetSqlConnectionString() string {
+	host := os.Getenv("POSTGRES_HOST")
+	user := os.Getenv("POSTGRES_USER")
+	password := os.Getenv("POSTGRES_PASSWORD")
+	dbName := os.Getenv("POSTGRES_DB")
+
+	if host != "" {
+		host = "localhost"
+		user = "postgres"
+		password = "postgres"
+		dbName = "pubquiz"
+	}
+
+	connStr := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432",
+		host,
+		user,
+		password,
+		dbName)
+
+	fmt.Println(connStr)
+
+	return connStr
+
 }

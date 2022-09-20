@@ -89,6 +89,14 @@ github.com/mattn/go-colorable v0.1.6/go.mod h1:u6P/XSegPjTcexA+o6vUJrdnUu04hMope
 github.com/mattn/go-isatty v0.0.5/go.mod h1:Iq45c/XA43vh69/j3iqttzPXn0bhXyGjM0Hdxcsrc5s=
 github.com/mattn/go-isatty v0.0.7/go.mod h1:Iq45c/XA43vh69/j3iqttzPXn0bhXyGjM0Hdxcsrc5s=
 github.com/mattn/go-isatty v0.0.12/go.mod h1:cbi8OIDigv2wuxKPP5vlRcQ1OAZbq2CE4Kysco4FUpU=
+github.com/milospp/pub-quiz v0.0.0-20220903074700-e6aff9ff1b6f h1:jaXvpbH7K79ezHGNUzLKX8yw71vXST22dzPjKO+mUQE=
+github.com/milospp/pub-quiz v0.0.0-20220903074700-e6aff9ff1b6f/go.mod h1:4ppqpR0x/YxHXRhbmXVM74BerIlXXAtBLK8U9/xAICw=
+github.com/milospp/pub-quiz v1.0.0 h1:sYSlO5D1tDrDp5Z3h9RSNz2FUfgcgLIdHdYt3ok8s0k=
+github.com/milospp/pub-quiz v1.0.0/go.mod h1:4ppqpR0x/YxHXRhbmXVM74BerIlXXAtBLK8U9/xAICw=
+github.com/milospp/pub-quiz/src/go-global v0.0.0-20220920082112-c41018cb3f20 h1:knyq0mMwe3pa+3/OL0nUfBU3hAobUkBWX+7Z2qWlFPU=
+github.com/milospp/pub-quiz/src/go-global v0.0.0-20220920082112-c41018cb3f20/go.mod h1:yuKqasi3ihMIzEGoakKxvwejH9XnC7TYQu8Fk4YbDXA=
+github.com/milospp/pub-quiz/src/go-global v1.0.0 h1:pyxNARdhVO69+/ynl2rplKxDPrXB+wy3bIQ+m9+4+2I=
+github.com/milospp/pub-quiz/src/go-global v1.0.0/go.mod h1:yuKqasi3ihMIzEGoakKxvwejH9XnC7TYQu8Fk4YbDXA=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=

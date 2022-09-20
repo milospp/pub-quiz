@@ -17,7 +17,9 @@ var app config.AppConfig
 
 func main() {
 	app.Production = false
-	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=pubquiz user=postgres password=postgres")
+
+	sqlConnStr := utils.GetSqlConnectionString()
+	db, err := driver.ConnectSQL(sqlConnStr)
 
 	utils.InitRandom()
 
